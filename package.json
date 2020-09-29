@@ -7,13 +7,19 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "build-spec": "cd scripts && node build-spec.js && swagger-cli validate ../spec/dist/api.yaml",
+        "serve-docs": "redoc-cli serve spec/dist/api.yaml --watch"
     },
     "devDependencies": {
         "axios": "^0.19",
         "cross-env": "^7.0",
+        "js-yaml": "^3.14.0",
+        "json-refs": "^3.0.15",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.19",
-        "resolve-url-loader": "^3.1.0"
+        "path-loader": "^1.0.10",
+        "resolve-url-loader": "^3.1.0",
+        "swagger-cli": "^4.0.4"
     }
 }

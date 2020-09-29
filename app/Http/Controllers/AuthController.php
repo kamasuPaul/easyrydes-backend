@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+
 class AuthController extends Controller
 {
     /**
@@ -21,10 +22,21 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    * @OA\Post(
+    * path="/api/auth/login",
+    * tags ={"Login"},
+    * summry="Login"
+    * )
+    * @OA\Parameter(
+    * name="email",
+    * in="query",
+    * required="true,
+    * @OA\Schema()   
+    * )
+    * Get a JWT via given credentials.
+    *
+    * @return \Illuminate\Http\JsonResponse
+    */
     public function login(Request $request){
     	$validator = Validator::make($request->all(), [
             'email' => 'required|email',
