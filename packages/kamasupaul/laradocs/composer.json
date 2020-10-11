@@ -1,0 +1,10 @@
+{
+    "name": "kpaul/laradocs",
+    "authors": [
+        {
+            "name": "kamasu paul",
+            "email": "kamasupaul@gmail.com"
+        }
+    ],
+    "require": {}
+}

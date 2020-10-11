@@ -1,0 +1,6 @@
+/:
+ get:
+   summary: "Return the API's version"
+   responses:
+     200:
+       description: "API version successfully returned."
