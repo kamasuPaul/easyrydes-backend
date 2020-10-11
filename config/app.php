@@ -174,6 +174,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Kamasupaul\Laradocs\LaradocsServiceProvider::class,
+        Noitran\Opendox\ServiceProvider::class
 
     ],
 
