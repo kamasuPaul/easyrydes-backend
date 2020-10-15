@@ -25,12 +25,13 @@ Route::group(['prefix' => 'users','middleware' => 'api',], function ($router) {
     Route::post('/login', [AuthController::class,'login']);
     Route::post('/logout', [AuthController::class,'logout']);
     Route::post('/refresh', [AuthController::class,'refresh']); //refresh user token
+    Route::post('/me', [AuthController::class,'me']); //get user using a token
     
-    Route::get('/', [UserController::class,'index']); //get all users
-    Route::get('/{user_id}', [AuthController::class,'show']); //get a user with id
-    Route::patch('/{user_id}',[UserController::class,'update']); //update a users details
-    Route::delete('/{user_id}',[UserController::class,'destroy']); //delete a user
-
-
+    Route::group(['middleware'=>'auth:api'], function ($router) {
+        Route::get('/', [UserController::class,'index']); //get all users
+        Route::get('/{user_id}', [UserController::class,'show']); //get a user with id
+        Route::patch('/{user_id}',[UserController::class,'update']); //update a users details
+        Route::delete('/{user_id}',[UserController::class,'destroy']); //delete a user
+    });
 
 });
