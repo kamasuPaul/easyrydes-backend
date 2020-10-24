@@ -28,6 +28,8 @@ Route::group(['prefix' => 'users', 'middleware' => 'api',], function ($router) {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']); //refresh user token
     Route::post('/me', [AuthController::class, 'me']); //get user using a token
+    Route::post('/forgot_password', [AuthController::class, 'forgot_password']); //get user using a token
+    Route::post('/reset_password/{token}', [AuthController::class, 'reset_password']); //get user using a token
 
     Route::group(['middleware' => 'auth:api'], function ($router) {
         Route::get('/', [UserController::class, 'index']); //get all users
