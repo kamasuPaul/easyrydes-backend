@@ -42,7 +42,7 @@ class ResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/reset_password/' . $this->token);
+        $url = url('/api/users/reset_password/' . $this->token);
         return (new MailMessage)
             ->greeting("Hello,")
             ->line('You have requested to reset your account password.')

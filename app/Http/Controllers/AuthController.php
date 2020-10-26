@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 
@@ -52,7 +53,7 @@ class AuthController extends Controller
         $token = Auth::attempt($validator->validated());
 
         if (!$token) {
-            return jsend_fail(['error' => 'Unauthorized'], 401);
+            return jsend_fail(['error' => 'Unauthorized, Invalid email or password'], 401);
         }
         return jsend_success($this->createNewToken($token));
     }
@@ -150,7 +151,7 @@ class AuthController extends Controller
     public function reset_password(Request $request, $token)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email',
+            'email' => 'required|string|email|exists:password_resets,email',
             'token' => 'required|string',
             'password' => 'required|string|confirmed|min:6',
         ]);
@@ -161,13 +162,13 @@ class AuthController extends Controller
 
         $reset_password_status =
             Password::reset($validator->validated(), function ($user, $password) {
-                $user->password = $password;
+                $user->password = Hash::make($password);
                 $user->save();
             });
 
         if ($reset_password_status == Password::INVALID_TOKEN) {
-            return jsend_fail(['message' => 'Invalid token provide'], 400);
+            return jsend_fail(['message' => 'Invalid token provided'], 400);
         }
-        return jsend_success(['message' => 'Password successfully chaned'], 200);
+        return jsend_success(['message' => 'Password successfully changed'], 200);
     }
 }
