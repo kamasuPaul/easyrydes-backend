@@ -15,6 +15,9 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->date('day_borrowed');
+            $table->date('day_returned');
+            $table->integer('total_price');
             $table->timestamps();
         });
     }
