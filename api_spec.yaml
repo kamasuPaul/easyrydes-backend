@@ -74,6 +74,8 @@ paths:
                         - email
                         - name
                         - password
+                        - password_confirmation
+
                     properties:
                         email:
                             type: string
@@ -81,6 +83,10 @@ paths:
                             type: string
                         password:
                             type: string
+                            minLength: 6
+                        password_confirmation:
+                           type: string
+                           minLength: 6
             responses:
                 201:
                     description: "Success"
