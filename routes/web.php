@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+Route::get('mail', function () {
+
+    return (new App\Notifications\ResetPasswordNotification("3838388383838388"))
+        ->toMail(User::find(1));
 });
