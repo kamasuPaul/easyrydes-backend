@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CarController extends Controller
 {
@@ -43,10 +45,26 @@ class CarController extends Controller
      */
     public function create_new_car(Request $request)
     {
-        # code...
+        $validator = Validator::make($request->all(), [
+            'VIN' => 'required|string|between:2,50',
+            'model_id' => 'required|string|exists:models,id',
+            'color' => 'required|string|between:2,50',
+            'plate_number' => 'required|string|max:100|unique:listings',
+            'year' => 'required|string',
+            'description' => 'required|string',
+            'allowable_miles' => 'string',
+            'status' => 'string',
+        ]);
+
+        if ($validator->fails()) {
+            return jsend_fail($validator->errors(), 400);
+        }
+
+        $car = Car::create($validator->validated());
+
         return jsend_success([
-            'message' => 'Car successfully added',
-            'car' => (object)[]
+            'message' => 'Car listing successfully added',
+            'car' => $car
         ], 201);
     }
 }
