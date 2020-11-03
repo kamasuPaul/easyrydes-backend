@@ -10,6 +10,7 @@ class Car extends Model
     use HasFactory;
 
     protected $table = "listings"; //car db table
+    protected $primaryKey  = "listing_id"; //primary key
     protected $fillable = [ //mass assignable fields
         'VIN',
         'color',
@@ -26,5 +27,6 @@ class Car extends Model
      */
     public function photos()
     {
+        return $this->hasMany('App\Models\CarPhoto', 'listing_id', 'listing_id');
     }
 }
