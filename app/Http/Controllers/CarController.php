@@ -11,10 +11,11 @@ class CarController extends Controller
     /**
      * Get all cars
      */
-    public function index()
+    public function index(Request $request)
     {
-        # code...
-        return jsend_success([], 200);
+        $perPage = $request->get('per_page', 25);
+        $paginator = Car::paginate($perPage);
+        return response()->json(my_paginator($paginator));
     }
     /**
      * Get details of a single car
@@ -47,13 +48,14 @@ class CarController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'VIN' => 'required|string|between:2,50',
-            'model_id' => 'required|string|exists:models,id',
+            'make_id' => 'required|string',
             'color' => 'required|string|between:2,50',
             'plate_number' => 'required|string|max:100|unique:listings',
             'year' => 'required|string',
             'description' => 'required|string',
             'allowable_miles' => 'string',
             'status' => 'string',
+            'speed_meter' => 'string|required',
         ]);
 
         if ($validator->fails()) {

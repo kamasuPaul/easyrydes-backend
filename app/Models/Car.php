@@ -10,7 +10,7 @@ class Car extends Model
     use HasFactory;
 
     protected $table = "listings"; //car db table
-    protected $filable = [ //mass assignable fields
+    protected $fillable = [ //mass assignable fields
         'VIN',
         'color',
         'plate_number',
@@ -18,7 +18,8 @@ class Car extends Model
         'description',
         'allowable_miles',
         'status',
-        'model_id'
+        'model_id',
+        'speed_meter'
     ];
     /**
      * car photos relationship
