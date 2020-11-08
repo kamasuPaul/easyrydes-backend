@@ -70,18 +70,22 @@ class CarController extends Controller
         //check if the request contains images
         if ($request->has('photos')) {
             $request->validate([
-                'photos'     =>  'required|image|mimes:jpeg,png,jpg|max:2048'
+                'photos.*'     =>  'required|image|mimes:jpeg,png,jpg|max:2048'
             ]);
         }
 
         $car = Car::create($validator->validated());
 
-        if ($request->file('photos')->isValid()) {
-            $file_path = $request->file('photos')->store('car_photos');
-            $photo = new CarPhoto();
-            $photo->url = $file_path;
-            $photo->listing_id = $car->id;
-            $photo->save();
+        if ($request->hasFile('photos')) {
+            //loop through all uploaded car photos
+            $photos = $request->file('photos');
+            foreach ($photos as $photo) {
+                $file_path = $photo->store('car_photos', 'public');
+                $photo = new CarPhoto();
+                $photo->url = $file_path;
+                $photo->listing_id = $car->listing_id;
+                $photo->save();
+            }
         }
 
         return jsend_success([
