@@ -44,4 +44,11 @@ class Car extends Model
     {
         return $this->hasOne('App\Models\CarPricing', 'listing_id', 'listing_id');
     }
+    /**
+     * car documents relationship
+     */
+    public function documents()
+    {
+        return $this->hasOne('App\Models\CarDocuments', 'listing_id', 'listing_id');
+    }
 }

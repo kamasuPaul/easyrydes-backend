@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\CarDocuments;
 use App\Models\CarLocation;
 use App\Models\CarPhoto;
 use App\Models\CarPricing;
@@ -25,7 +26,7 @@ class CarController extends Controller
      */
     public function get_details($user_id)
     {
-        $car = Car::with('photos')->find($user_id);
+        $car = Car::with('photos')->with('documents')->find($user_id);
         //return 404 if the car with  the given id is not found
         if (!$car) {
             return jsend_fail(['message' => 'A car listing with the given id was  not found'], 404);
@@ -86,6 +87,14 @@ class CarController extends Controller
                 'photos.*'     =>  'required|image|mimes:jpeg,png,jpg|max:2048'
             ]);
         }
+        //check if the request contains documents && validate them
+        if ($request->has('documents')) {
+            $request->validate([
+                'documents.proof_of_registration'     =>  'required|image|mimes:jpeg,png,jpg|max:2048',
+                'documents.proof_of_insurance'     =>  'required|image|mimes:jpeg,png,jpg|max:2048',
+                'documents.proof_of_inspection'     =>  'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+        }
 
         $car = Car::create($validator->validated());
 
@@ -117,6 +126,29 @@ class CarController extends Controller
         $pricing->listing_id = $car->listing_id;
         $pricing->save();
 
+        //save the documents if they are available
+        if ($request->has('documents')) {
+            $documents = new CarDocuments();
+            //store image for proof_of_registration
+            $proof_of_reg = $request->file('documents.proof_of_registration');
+            $file_path_reg = $proof_of_reg->store('car_documents', 'public');
+            $documents->proof_of_registration = $file_path_reg;
+
+            //store image for proof_of_insurance
+            $proof_of_ins = $request->file('documents.proof_of_insurance');
+            $file_path_ins = $proof_of_ins->store('car_documents', 'public');
+            $documents->proof_of_insurance = $file_path_ins;
+
+            //store image for proof_of_inspection
+            $proof_of_insp = $request->file('documents.proof_of_inspection');
+            $file_path_insp = $proof_of_insp->store('car_documents', 'public');
+            $documents->proof_of_inspection = $file_path_insp;
+
+            $documents->listing_id = $car->listing_id;
+            $documents->save();
+        }
+
+        //return response
         return jsend_success([
             'message' => 'Car listing successfully added',
             'car' => $car

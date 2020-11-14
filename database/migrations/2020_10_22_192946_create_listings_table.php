@@ -21,7 +21,7 @@ class CreateListingsTable extends Migration
             $table->string('plate_number');
             $table->year('year');
             $table->string('speed_meter');
-            $table->string('description');
+            $table->mediumText('description');
             $table->string('allowable_miles');
             $table->timestamps();
         });
