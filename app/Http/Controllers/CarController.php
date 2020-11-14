@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\CarLocation;
 use App\Models\CarPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -62,12 +63,18 @@ class CarController extends Controller
             'allowable_miles' => 'string',
             'status' => 'string',
             'speed_meter' => 'string|required',
+            //validate location
+            'location.lat' => 'numeric|required',
+            'location.long' => 'numeric|required',
+            'location.place_name' => 'string|required',
+
+
         ]);
 
         if ($validator->fails()) {
             return jsend_fail($validator->errors(), 400);
         }
-        //check if the request contains images
+        //check if the request contains images && validate them
         if ($request->has('photos')) {
             $request->validate([
                 'photos.*'     =>  'required|image|mimes:jpeg,png,jpg|max:2048'
@@ -76,6 +83,7 @@ class CarController extends Controller
 
         $car = Car::create($validator->validated());
 
+        //save the photos
         if ($request->hasFile('photos')) {
             //loop through all uploaded car photos
             $photos = $request->file('photos');
@@ -87,6 +95,13 @@ class CarController extends Controller
                 $photo->save();
             }
         }
+        //save the location 
+        $location = new CarLocation();
+        $location->longitude = $request->input('location.long');
+        $location->latitude = $request->input('location.lat');
+        $location->location_name = $request->input('location.place_name');
+        $location->listing_id = $car->listing_id;
+        $location->save();
 
         return jsend_success([
             'message' => 'Car listing successfully added',

@@ -22,11 +22,19 @@ class Car extends Model
         'model_id',
         'speed_meter'
     ];
+    protected $with = ['location'];
     /**
      * car photos relationship
      */
     public function photos()
     {
         return $this->hasMany('App\Models\CarPhoto', 'listing_id', 'listing_id');
+    }
+    /**
+     * car location relationship
+     */
+    public function location()
+    {
+        return $this->hasOne('App\Models\CarLocation', 'listing_id', 'listing_id');
     }
 }
