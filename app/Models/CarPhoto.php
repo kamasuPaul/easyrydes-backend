@@ -14,6 +14,9 @@ class CarPhoto extends Model
     protected $primaryKey  = "photo_id"; //primary key
     protected $guarded = [];
 
+    protected $hidden = ['created_at', 'updated_at', 'listing_id'];
+
+
     public function getUrlAttribute($value)
     {
         return  Storage::url($value);

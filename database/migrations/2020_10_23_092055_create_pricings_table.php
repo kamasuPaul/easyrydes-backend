@@ -15,8 +15,9 @@ class CreatePricingsTable extends Migration
     {
         Schema::create('pricings', function (Blueprint $table) {
             $table->bigIncrements('price_id');
-            $table->integer('duration');
-            $table->integer('price');
+            $table->integer('price_per_day');
+            $table->integer('price_per_week');
+            $table->integer('price_per_month');
             $table->timestamps();
             $table->foreignId('listing_id');
             $table->foreign('listing_id')->references('listing_id')->on('listings')->onDelete('cascade');

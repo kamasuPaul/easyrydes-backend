@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Car;
 use App\Models\CarLocation;
 use App\Models\CarPhoto;
+use App\Models\CarPricing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -67,6 +68,11 @@ class CarController extends Controller
             'location.lat' => 'numeric|required',
             'location.long' => 'numeric|required',
             'location.place_name' => 'string|required',
+            //validate price
+            'price_per_day' => 'numeric|required',
+            'price_per_week' => 'numeric|required',
+            'price_per_month' => 'numeric|required',
+
 
 
         ]);
@@ -102,6 +108,14 @@ class CarController extends Controller
         $location->location_name = $request->input('location.place_name');
         $location->listing_id = $car->listing_id;
         $location->save();
+
+        //save the price
+        $pricing = new CarPricing();
+        $pricing->price_per_day = $request->input('price_per_day');
+        $pricing->price_per_week = $request->input('price_per_week');
+        $pricing->price_per_month = $request->input('price_per_month');
+        $pricing->listing_id = $car->listing_id;
+        $pricing->save();
 
         return jsend_success([
             'message' => 'Car listing successfully added',
