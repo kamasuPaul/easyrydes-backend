@@ -15,27 +15,57 @@ components:
       type: object
       required:
         - id
+        - VIN
+        - make_id
+        - color
+        - plate_number
+        - year
+        - description
         - name
         - owner_id
         - date_created
         - price_per_day
+        - price_per_week
+        - price_per_month
         - location
       properties:
         id:
           type: string
+        VIN:
+          type: string
+        make_id:
+          type: number
+        color:
+          type: string
+          example: red
+        plate_number:
+          type: string
+        year:
+          type: number
+        description:
+          type: string
+          description: "description of the car"
         name:
           type: string
-        booked:
-          type: boolean
-          description: "determines if the car is booked or not"
+        # booked:
+        #   type: boolean
+        #   description: "determines if the car is booked or not"
         owner_id:
           type: string
         date_created:
           type: integer
         price_per_day:
           type: number
+        price_per_week:
+          type: number
         price_per_month:
           type: number
+        photos:
+          type: object
+          description: |
+            photos of the car (files), not requird
+            but a minimum of 2 photos should be provided
+            if this field is included
         location:
           type: object
           description: |

@@ -23,6 +23,9 @@ class CreateListingsTable extends Migration
             $table->string('speed_meter');
             $table->mediumText('description');
             $table->string('allowable_miles');
+            $table->string('preview_photo')->nullable(true);
+            $table->foreignId('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

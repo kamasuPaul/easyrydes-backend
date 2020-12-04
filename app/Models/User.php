@@ -73,4 +73,13 @@ class User extends Authenticatable implements JWTSubject
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    /**
+     * cars relationship
+     * it shows the cars  the user has listed
+     */
+    public function cars()
+    {
+        return $this->hasMany('App\Models\Car', 'listing_id', 'id');
+    }
 }

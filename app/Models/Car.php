@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+
 
 class Car extends Model
 {
@@ -20,9 +22,12 @@ class Car extends Model
         'allowable_miles',
         'status',
         'model_id',
-        'speed_meter'
+        'speed_meter',
+        'preview_photo',
+        'user_id'
     ];
     protected $with = ['location', 'pricing'];
+    // protected $appends = ['preview_photo'];
     /**
      * car photos relationship
      */
@@ -50,5 +55,22 @@ class Car extends Model
     public function documents()
     {
         return $this->hasOne('App\Models\CarDocuments', 'listing_id', 'listing_id');
+    }
+    /**
+     * get preview phot
+     * 
+     */
+    public function getPreviewPhotoAttribute($value)
+    {
+        // return $this->photos[0]->url;
+        return  Storage::url($value);
+    }
+    /**
+     * car owner relationship
+     * it shows the cars owner
+     */
+    public function owner()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'listing_id');
     }
 }

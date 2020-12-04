@@ -7,6 +7,7 @@ use App\Models\CarDocuments;
 use App\Models\CarLocation;
 use App\Models\CarPhoto;
 use App\Models\CarPricing;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,11 +23,22 @@ class CarController extends Controller
         return response()->json(my_paginator($paginator));
     }
     /**
+     * get car that belong that where listed by a certain user
+     */
+    public function get_user_cars($user_id)
+    {
+        $user = User::find($user_id);
+        if (!$user) {
+            return jsend_fail(['message' => 'A user account with the given id was  not found'], 404);
+        }
+        return jsend_success($user->cars);
+    }
+    /**
      * Get details of a single car
      */
-    public function get_details($user_id)
+    public function get_details($car_id)
     {
-        $car = Car::with('photos')->with('documents')->find($user_id);
+        $car = Car::with('photos')->with('documents')->find($car_id);
         //return 404 if the car with  the given id is not found
         if (!$car) {
             return jsend_fail(['message' => 'A car listing with the given id was  not found'], 404);
@@ -73,6 +85,8 @@ class CarController extends Controller
             'price_per_day' => 'numeric|required',
             'price_per_week' => 'numeric|required',
             'price_per_month' => 'numeric|required',
+            //specify user/owner of the car
+            'user_id' => 'required|string|exists:users,id',
 
 
 
@@ -109,6 +123,9 @@ class CarController extends Controller
                 $photo->listing_id = $car->listing_id;
                 $photo->save();
             }
+            //update the car suchthat the first photo becomes the preview photo
+            $car->preview_photo = $file_path;
+            $car->save();
         }
         //save the location 
         $location = new CarLocation();
