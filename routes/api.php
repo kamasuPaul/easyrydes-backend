@@ -40,7 +40,7 @@ Route::group(['prefix' => 'users'], function ($router) {
  * Prefix cars
  * Requires an access token obtained on login
  */
-Route::group(['prefix' => 'cars'], function ($router) {
+Route::group(['prefix' => 'cars', 'middeware' => 'auth:api'], function ($router) {
     Route::get('/', [CarController::class, 'index']); //get all cars/search for cars
     Route::get('/{car_id}', [CarController::class, 'get_details']); //get details for a specific car
     Route::patch('/{car_id', [CarController::class, 'update']); //update a cars details
