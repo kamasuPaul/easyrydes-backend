@@ -6,12 +6,12 @@
     },
     "servers": [
         {
-            "url": "https://api.server.test/v1",
-            "description": "Server description"
+            "url": "http://localhost:8000/api",
+            "description": "Local host"
         },
         {
-            "url": "https://localhost:8000/v1",
-            "description": "Local host"
+            "url": "https://car-api.kamasupaul.com/api",
+            "description": "Server description"
         }
     ],
     "components": {
@@ -20,22 +20,46 @@
                 "type": "object",
                 "required": [
                     "id",
+                    "VIN",
+                    "make_id",
+                    "color",
+                    "plate_number",
+                    "year",
+                    "description",
                     "name",
                     "owner_id",
                     "date_created",
                     "price_per_day",
+                    "price_per_week",
+                    "price_per_month",
                     "location"
                 ],
                 "properties": {
                     "id": {
                         "type": "string"
                     },
-                    "name": {
+                    "VIN": {
                         "type": "string"
                     },
-                    "booked": {
-                        "type": "boolean",
-                        "description": "determines if the car is booked or not"
+                    "make_id": {
+                        "type": "number"
+                    },
+                    "color": {
+                        "type": "string",
+                        "example": "red"
+                    },
+                    "plate_number": {
+                        "type": "string"
+                    },
+                    "year": {
+                        "type": "number"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "description of the car"
+                    },
+                    "name": {
+                        "type": "string"
                     },
                     "owner_id": {
                         "type": "string"
@@ -46,8 +70,15 @@
                     "price_per_day": {
                         "type": "number"
                     },
+                    "price_per_week": {
+                        "type": "number"
+                    },
                     "price_per_month": {
                         "type": "number"
+                    },
+                    "photos": {
+                        "type": "object",
+                        "description": "photos of the car (files), not requird\nbut a minimum of 2 photos should be provided\nif this field is included\n"
                     },
                     "location": {
                         "type": "object",
@@ -95,7 +126,8 @@
                                 "required": [
                                     "email",
                                     "name",
-                                    "password"
+                                    "password",
+                                    "password_confirmation"
                                 ],
                                 "properties": {
                                     "email": {
@@ -105,7 +137,12 @@
                                         "type": "string"
                                     },
                                     "password": {
-                                        "type": "string"
+                                        "type": "string",
+                                        "minLength": 6
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "minLength": 6
                                     }
                                 }
                             }
@@ -156,6 +193,11 @@
                         "schema": {
                             "type": "string"
                         }
+                    }
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
                     }
                 ],
                 "responses": {
