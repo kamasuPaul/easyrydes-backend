@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect('/api/console');
+});
+Route::get('/migrate',function () {
+    return Artisan::call('migrate', ["--force" => true ]);
+});
+Route::get('/migrate/rollback',function () {
+    return Artisan::call('migrate:rollback', ["--force" => true ]);
 });
 Route::get('mail', function () {
 
