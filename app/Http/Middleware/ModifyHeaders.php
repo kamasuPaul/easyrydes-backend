@@ -22,7 +22,7 @@ class ModifyHeaders
         $response = $next($request);
         //fix cors error
         $response->header( 'Access-Control-Allow-Origin', '*' );
-        $response->header( 'Access-Control-Allow-Headers', 'Origin, Content-Type' );
+        $response->header( 'Access-Control-Allow-Headers','Content-Type','X-Auth-Token','Origin','Authorization');
 
         return $response;
     }
