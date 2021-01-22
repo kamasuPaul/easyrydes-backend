@@ -21,6 +21,9 @@ Route::get('/', function () {
 Route::get('/migrate',function () {
     return Artisan::call('migrate', ["--force" => true ]);
 });
+Route::get('/exec',function () {
+    return Artisan::call('jwt:secret',["--force" => true ]);
+});
 Route::get('/migrate/rollback',function () {
     return Artisan::call('migrate:rollback', ["--force" => true ]);
 });
