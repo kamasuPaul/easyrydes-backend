@@ -117,7 +117,7 @@ class CarController extends Controller
             //loop through all uploaded car photos
             $photos = $request->file('photos');
             foreach ($photos as $photo) {
-                $file_path = $photo->store('', 'google');
+                $file_path = $photo->store('', 'local');
                 $photo = new CarPhoto();
                 $photo->url = $file_path;
                 $photo->listing_id = $car->listing_id;
