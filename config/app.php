@@ -175,7 +175,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Kamasupaul\Laradocs\LaradocsServiceProvider::class,
-        Noitran\Opendox\ServiceProvider::class
+        Noitran\Opendox\ServiceProvider::class,
+        App\Providers\GoogleDriveServiceProvider::class,
+
 
     ],
 

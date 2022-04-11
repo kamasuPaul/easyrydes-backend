@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -75,11 +76,40 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return jsend_fail($validator->errors(), 400);
         }
+        //validate organization details
+        if ($request->organization_account == true) {
+            //validate organization details
+            $request->validate([//organization
+                'organization.name' => 'required|string|between:2,100',
+                'organization.email' => 'required|string|email|max:100|unique:organizations,email',
+                'organization.phone' => 'required|string|min:10|unique:organizations,phone',
+                'organization.location' => 'required|string|between:2,100',
+                'organization.website' => 'string|between:2,100',
+                'organization.logo' => 'string|between:2,100',
+                'organization.description' => 'required|string|between:2,100',
+            ]);
+        }
 
         $user = User::create(array_merge(
             $validator->validated(),
             ['password' => bcrypt($request->password)]
         ));
+        //create organization
+        if ($request->organization_account == true) {
+            $organization = new Organization();
+            $organization->name = $request->input('organization.name');
+            $organization->email = $request->input('organization.email');
+            $organization->phone = $request->input('organization.phone');
+            $organization->location = $request->input('organization.location');
+            $organization->website = $request->input('organization.website');
+            $organization->logo = $request->input('organization.logo');
+            $organization->description = $request->input('organization.description');
+            $organization->owner_id = $user->id;
+            $organization->save();
+        }
+        //update user organization
+        $user->organization_id = $organization->id;
+        $user->save();
 
         return jsend_success([
             'message' => 'User successfully registered',

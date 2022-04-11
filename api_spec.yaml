@@ -3,10 +3,12 @@ info:
   title: "API"
   version: "1.0.0"
 servers:
+  - url: 'https://easyrydes-75csaodm3q-nn.a.run.app/api'
+    description: google cloudRun
   - url: 'http://localhost:8000/api'
     description: Local host
   - url: 'https://car-api.kamasupaul.com/api'
-    description: Server description
+    description: hosted on kamasupaul.com
 
 
 components:
@@ -104,6 +106,7 @@ paths:
                     required:
                         - email
                         - name
+                        - phone
                         - password
                         - password_confirmation
 
@@ -111,6 +114,8 @@ paths:
                         email:
                             type: string
                         name:
+                            type: string
+                        phone:
                             type: string
                         password:
                             type: string
