@@ -5,13 +5,15 @@ Backend of the api
 ## How to setup project
 ### Step 1 ###
 - install [composer](https://getcomposer.org/doc/00-intro.md) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-- clone the [repository](https://gitlab.com/cars-services-app/backend) from [gitlab](https://gitlab.com/)
+- clone the [repository](https://gitlab.com/cars-services-app/backend) from [gitlab](https://gitlab.com/) Or u can just download it
 > `git clone https://gitlab.com/cars-services-app/backend.`
+- move the project to `www` folder in wamp directory or `htdocs` folder in xamp
 ### step 2 ###
-Run composer install to download project dependencies
+Navigate to the project root directory and 
+Run composer install to download project dependencies:
  > `composer install`
 ### Step 3 ###
-update the `.env` file to add database and email environment variables
+update the `.env` file found int the project root directory, to add database and email environment variables
  - add database connection  environment variables
 ```yaml
 DB_CONNECTION=mysql
@@ -50,3 +52,4 @@ Check out the develop brach and start coding.
 
 😃 Happy coding. We look forward to a successful journey with you! ***Welcome aboard!***
 > Congratulations on being part of the team!<br>
+

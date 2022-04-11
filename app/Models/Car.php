@@ -62,7 +62,7 @@ class Car extends Model
     public function getPreviewPhotoAttribute($value)
     {
         // return $this->photos[0]->url;
-        return  Storage::url($value);
+        // return  Storage::url($value);
     }
     /**
      * car owner relationship
