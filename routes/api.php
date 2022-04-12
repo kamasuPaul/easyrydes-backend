@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -47,3 +48,20 @@ Route::group(['prefix' => 'cars'], function ($router) {
     Route::post('/', [CarController::class, 'create_new_car']); //add a new car
     Route::delete('/{car_id}', [CarController::class, 'delete']); //delete an existing car
 });
+//add endpoints for making offers
+
+//add endpoints for accepting offers
+//add endpoints for getting offers
+//add endpoints for getting offers made by a user
+//add endpoints for getting offers accepted by a user
+//add endpoints for getting offers made by a user
+
+//add group endpoints for offers
+Route::group(['prefix' => 'offers','middleware' => 'auth:api'], function ($router) {
+    Route::get('/', [OfferController::class, 'index']); //get all offers
+    Route::get('/{offer_id}', [OfferController::class, 'show']); //get a specific offer
+    Route::post('/', [OfferController::class, 'store']); //create a new offer
+    Route::patch('/{offer_id}', [OfferController::class, 'update']); //update an offer
+    Route::delete('/{offer_id}', [OfferController::class, 'delete']); //delete an offer
+});
+
