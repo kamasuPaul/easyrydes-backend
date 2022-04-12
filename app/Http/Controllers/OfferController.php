@@ -15,7 +15,9 @@ class OfferController extends Controller
      */
     public function index()
     {
-        //
+        //get all offers where user_id = auth()->user()->id
+        $offers = Offer::where('user_id', auth()->user()->id)->paginate();
+        return response()->json(my_paginator($offers));
     }
 
     /**
