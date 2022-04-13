@@ -32,9 +32,14 @@ class MediaController extends Controller
     public function store(Request $request)
     {
         $visibility = $request->input('visibility', 'public');
-        $this->validate($request, ['file' => 'required|file']);
+        $this->validate($request, ['file' => 'required|file|mimes:jpeg,png,jpg|max:2048']);
         $media = MediaUploader::fromSource($request->file('file'));
-        $media->toDisk('gcs');
+        //if APP_ENV is local , upload to local disk, else upload gcs
+        if (env('APP_ENV') == 'local') {
+            $media->toDisk('public');
+        } else {
+            $media->toDisk('gcs');
+        }
         $media = $media->upload();
         $media->url = $media->getUrl();
         return jsend_success([

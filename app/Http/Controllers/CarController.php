@@ -19,7 +19,7 @@ class CarController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 25);
-        $paginator = Car::paginate($perPage);
+        $paginator = Car::latest()->paginate($perPage);
         return response()->json(my_paginator($paginator));
     }
     /**
@@ -38,7 +38,7 @@ class CarController extends Controller
      */
     public function get_details($car_id)
     {
-        $car = Car::with('photos')->with('documents')->find($car_id);
+        $car = Car::withMedia('photos')->with('documents')->find($car_id);
         //return 404 if the car with  the given id is not found
         if (!$car) {
             return jsend_fail(['message' => 'A car listing with the given id was  not found'], 404);
@@ -98,7 +98,7 @@ class CarController extends Controller
         //check if the request contains images && validate them
         if ($request->has('photos')) {
             $request->validate([
-                'photos.*'     =>  'required|image|mimes:jpeg,png,jpg|max:2048'
+                'photos.*'     =>  'required|integer|exists:media,id',
             ]);
         }
         //check if the request contains documents && validate them
@@ -113,18 +113,13 @@ class CarController extends Controller
         $car = Car::create($validator->validated());
 
         //save the photos
-        if ($request->hasFile('photos')) {
+        if ($request->has('photos')) {
             //loop through all uploaded car photos
-            $photos = $request->file('photos');
-            foreach ($photos as $photo) {
-                $file_path = $photo->store('', 'gcs');
-                $photo = new CarPhoto();
-                $photo->url = $file_path;
-                $photo->listing_id = $car->listing_id;
-                $photo->save();
-            }
+            $photos = $request->input('photos');
+            // dd($photos);
+            $car->attachMedia($photos, 'photos');
             //update the car suchthat the first photo becomes the preview photo
-            $car->preview_photo = $file_path;
+            // $car->preview_photo = $file_path;
             $car->save();
         }
         //save the location 

@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Plank\Mediable\Mediable;
 
 class Car extends Model
 {
     use HasFactory;
+    use Mediable;
+    
 
     protected $table = "listings"; //car db table
     protected $primaryKey  = "listing_id"; //primary key
@@ -25,15 +28,16 @@ class Car extends Model
         'preview_photo',
         'user_id'
     ];
+    // protected $hidden = ['media'];
     protected $with = ['location', 'pricing'];
     // protected $appends = ['preview_photo'];
     /**
      * car photos relationship
      */
-    public function photos()
-    {
-        return $this->hasMany('App\Models\CarPhoto', 'listing_id', 'listing_id');
-    }
+    // public function photos()
+    // {
+    //     return $this->getMedia('photos');
+    // }
     /**
      * car location relationship
      */
@@ -61,6 +65,10 @@ class Car extends Model
      */
     public function getPreviewPhotoAttribute($value)
     {
+        $photo =  $this->firstMedia('photos');
+        if($photo){
+            return $photo->url;
+        }
         return "https://autosforsale.co.nz/wp-content/themes/motors-child/assets/images/automanager_placeholders/plchldr798automanager.png";
         // return $this->photos[0]->url;
         // return  Storage::url($value);
