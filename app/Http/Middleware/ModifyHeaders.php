@@ -20,9 +20,9 @@ class ModifyHeaders
         $request->headers->set('Accept', 'application/json');
 
         $response = $next($request);
-        //fix cors error
-        $response->header( 'Access-Control-Allow-Origin', '*' );
-        $response->header( 'Access-Control-Allow-Headers','Content-Type','X-Auth-Token','Origin','Authorization');
+        // //fix cors error
+        // $response->header( 'Access-Control-Allow-Origin', '*' );
+        // $response->header( 'Access-Control-Allow-Headers','Content-Type','X-Auth-Token','Origin','Authorization');
 
         return $response;
     }

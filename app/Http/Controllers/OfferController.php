@@ -49,7 +49,7 @@ class OfferController extends Controller
         }
 
         $offer = Offer::create([
-            'car_id' => $request->car_id,
+            'listing_id' => $request->car_id,
             'amount' => $request->amount,
             'description' => $request->description,
             'status' => 'pending',

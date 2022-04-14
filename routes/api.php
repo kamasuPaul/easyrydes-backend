@@ -42,7 +42,7 @@ Route::group(['prefix' => 'users'], function ($router) {
  * Prefix cars
  * Requires an access token obtained on login
  */
-Route::group(['prefix' => 'cars'], function ($router) {
+Route::group(['prefix' => 'cars', 'middleware' => 'auth:api'], function ($router) {
     Route::get('/', [CarController::class, 'index']); //get all cars/search for cars
     Route::get('/{car_id}', [CarController::class, 'get_details']); //get details for a specific car
     Route::patch('/{car_id', [CarController::class, 'update']); //update a cars details
@@ -51,7 +51,7 @@ Route::group(['prefix' => 'cars'], function ($router) {
 });
 
 //add group endpoints for offers
-Route::group(['prefix' => 'offers','middleware' => 'auth:api'], function () {
+Route::group(['prefix' => 'offers', 'middleware' => 'auth:api'], function () {
     Route::get('/', [OfferController::class, 'index']); //get all offers
     Route::get('/{offer_id}', [OfferController::class, 'show']); //get a specific offer
     Route::post('/', [OfferController::class, 'store']); //create a new offer
@@ -67,4 +67,3 @@ Route::group(['prefix' => 'media', 'middleware' => 'auth:api'], function () {
     // Route::patch('/{media}',[MediaController::class,'update']);
     Route::delete('/{media}', [MediaController::class, 'destroy']);
 });
-

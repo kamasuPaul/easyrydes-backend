@@ -17,7 +17,7 @@ class CreateOffersTable extends Migration
             $table->id();
             $table->decimal('amount');
             $table->enum('status',['pending','accepted','rejected']);
-            $table->unsignedBigInteger('car_id');
+            $table->unsignedBigInteger('listing_id');
             $table->unsignedBigInteger('user_id');
             $table->date('start_date')->nullable();//
             $table->date('end_date')->nullable();
@@ -25,7 +25,7 @@ class CreateOffersTable extends Migration
             $table->timestamp('expires_at')->nullable();
             $table->timestamps();
             //add relationships
-            $table->foreign('car_id')->references('id')->on('cars')->cascadeOnDelete();
+            $table->foreign('listing_id')->references('listing_id')->on('listings')->cascadeOnDelete();
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
         });
     }
