@@ -79,7 +79,7 @@ class AuthController extends Controller
         //validate organization details
         if ($request->organization_account == true) {
             //validate organization details
-            $request->validate([//organization
+            $request->validate([ //organization
                 'organization.name' => 'required|string|between:2,100',
                 'organization.email' => 'required|string|email|max:100|unique:organizations,email',
                 'organization.phone' => 'required|string|min:10|unique:organizations,phone',
@@ -106,10 +106,11 @@ class AuthController extends Controller
             $organization->description = $request->input('organization.description');
             $organization->owner_id = $user->id;
             $organization->save();
+
+            //update user organization
+            $user->organization_id = $organization->id;
+            $user->save();
         }
-        //update user organization
-        $user->organization_id = $organization->id;
-        $user->save();
 
         return jsend_success([
             'message' => 'User successfully registered',
