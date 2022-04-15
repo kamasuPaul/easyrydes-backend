@@ -20,9 +20,9 @@ class ModifyHeaders
         $request->headers->set('Accept', 'application/json');
 
         $response = $next($request);
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: *');
-        header('Access-Control-Allow-Headers: *');
+        // header('Access-Control-Allow-Origin: *');
+        // header('Access-Control-Allow-Methods: *');
+        // header('Access-Control-Allow-Headers: *');
         // //fix cors error
         // $response->header( 'Access-Control-Allow-Origin', '*' );
         // $response->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
