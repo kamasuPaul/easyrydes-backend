@@ -9,7 +9,7 @@ class Offer extends Model
 {
     use HasFactory;
     protected $fillable = [ //mass assignable fields
-        'car_id',
+        'listing_id',
         'amount',
         'status',
         'description',
