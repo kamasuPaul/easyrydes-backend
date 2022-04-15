@@ -43,8 +43,8 @@ Route::group(['prefix' => 'users'], function ($router) {
  * Requires an access token obtained on login
  */
 Route::group(['prefix' => 'cars'], function ($router) {
-    Route::get('/', [CarController::class, 'index']); //get all cars/search for cars
-    Route::get('/{car_id}', [CarController::class, 'get_details']); //get details for a specific car
+    Route::get('/', [CarController::class, 'index']);
+    Route::get('/{car_id}', [CarController::class, 'get_details']); 
     //add middleware to protect this route
     Route::group(['middleware' => 'auth:api'], function ($router) {
         Route::post('/', [CarController::class, 'store']); //create a new car
