@@ -42,12 +42,15 @@ Route::group(['prefix' => 'users'], function ($router) {
  * Prefix cars
  * Requires an access token obtained on login
  */
-Route::group(['prefix' => 'cars', 'middleware' => 'auth:api'], function ($router) {
+Route::group(['prefix' => 'cars'], function ($router) {
     Route::get('/', [CarController::class, 'index']); //get all cars/search for cars
     Route::get('/{car_id}', [CarController::class, 'get_details']); //get details for a specific car
-    Route::patch('/{car_id', [CarController::class, 'update']); //update a cars details
-    Route::post('/', [CarController::class, 'create_new_car']); //add a new car
-    Route::delete('/{car_id}', [CarController::class, 'delete']); //delete an existing car
+    //add middleware to protect this route
+    Route::group(['middleware' => 'auth:api'], function ($router) {
+        Route::post('/', [CarController::class, 'store']); //create a new car
+        Route::patch('/{car_id}', [CarController::class, 'update']); //update a car
+        Route::delete('/{car_id}', [CarController::class, 'destroy']); //delete a car
+    });
 });
 
 //add group endpoints for offers

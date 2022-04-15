@@ -58,7 +58,7 @@ class CarController extends Controller
     /**
      * Delete an existing car
      */
-    public function delete(Request $request, $car_id)
+    public function destroy(Request $request, $car_id)
     {
         # code...
         return jsend_success([
@@ -68,7 +68,7 @@ class CarController extends Controller
     /**
      * Create a new car
      */
-    public function create_new_car(Request $request)
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'VIN' => 'required|string|between:2,50',
