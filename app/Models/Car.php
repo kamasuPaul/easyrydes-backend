@@ -69,9 +69,7 @@ class Car extends Model
         if($photo){
             return $photo->url;
         }
-        return "https://autosforsale.co.nz/wp-content/themes/motors-child/assets/images/automanager_placeholders/plchldr798automanager.png";
-        // return $this->photos[0]->url;
-        // return  Storage::url($value);
+        return "https://storage.googleapis.com/easyrydes_bucket/plchldr798automanager.png";
     }
     /**
      * car owner relationship
